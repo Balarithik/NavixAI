@@ -5,3 +5,4 @@ python-dotenv>=1.0,<2.0
 pymysql>=1.1,<2.0
 qrcode>=7.4,<8.0
 Pillow>=10.0,<11.0
+gunicorn==22.0.0
