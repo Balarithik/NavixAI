@@ -2,6 +2,8 @@
 
 A clean, modern **indoor navigation web application** for campus buildings. NavixAI provides QR-based positioning, multi-floor shortest-path routing (Dijkstra's algorithm) with lift vs. stairs preferences, interactive SVG floor plans, turn-by-turn directions, and a gamified checkpoint experience.
 
+LIVE LINK : https://navixai.onrender.com/
+
 ---
 
 ## Table of Contents
@@ -65,15 +67,15 @@ A clean, modern **indoor navigation web application** for campus buildings. Navi
 
 ## Technology Stack
 
-| Layer      | Technology                                        |
-|------------|---------------------------------------------------|
-| Frontend   | React 19, Vite 8, JavaScript/JSX                  |
-| Icons      | Lucide React                                      |
-| QR Scanner | @zxing/browser                                    |
+| Layer      | Technology                                         |
+| ---------- | -------------------------------------------------- |
+| Frontend   | React 19, Vite 8, JavaScript/JSX                   |
+| Icons      | Lucide React                                       |
+| QR Scanner | @zxing/browser                                     |
 | Styling    | Vanilla CSS (design tokens, Snazzy Maps aesthetic) |
 | Backend    | Python 3, Django 5.2, Django REST Framework        |
 | Database   | MySQL (production) / SQLite (development)          |
-| QR Gen     | Python `qrcode` library                           |
+| QR Gen     | Python `qrcode` library                            |
 | Routing    | Dijkstra's Algorithm (custom implementation)       |
 
 ---
@@ -140,15 +142,15 @@ F1_N02,1,Reception,amenity,1,20,85,CAMPUSNAV:F1_N02
 F1_N03,1,Main Junction,junction,1,35,85,CAMPUSNAV:F1_N03
 ```
 
-| Column    | Description                              |
-|-----------|------------------------------------------|
-| node_id   | Unique identifier (e.g. F1_N01)          |
-| block     | Building block/section                   |
-| name      | Human-readable name                      |
-| type      | entrance/room/junction/stair/lift/amenity/etc |
-| floor     | Floor number (positive integer)          |
-| x, y      | Coordinates on the floor plan (0-100)    |
-| qr_code   | QR payload string                        |
+| Column  | Description                                   |
+| ------- | --------------------------------------------- |
+| node_id | Unique identifier (e.g. F1_N01)               |
+| block   | Building block/section                        |
+| name    | Human-readable name                           |
+| type    | entrance/room/junction/stair/lift/amenity/etc |
+| floor   | Floor number (positive integer)               |
+| x, y    | Coordinates on the floor plan (0-100)         |
+| qr_code | QR payload string                             |
 
 ---
 
@@ -161,17 +163,21 @@ MySQL/SQLite  →  Django Nodes + Edges  →  In-Memory Graph  →  Dijkstra  �
 ```
 
 ### Graph Construction
+
 - Nodes and Edges are loaded from the database into an adjacency list
 - Intra-floor edges connect rooms, junctions, corridors with `movement_type='walk'`
 - Inter-floor edges connect Staircase A nodes with `movement_type='stairs'` and Lift A nodes with `movement_type='lift'`
 
 ### Dijkstra with Mode Filtering
+
 - `mode='any'` — uses all edges (fastest route regardless of stairs/lift)
 - `mode='lift'` — excludes stairs edges (forces lift transitions)
 - `mode='stairs'` — excludes lift edges (forces staircase transitions)
 
 ### Route Response
+
 The route engine returns:
+
 - Ordered path with coordinates for map polyline rendering
 - Total distance (metres), estimated walking time (minutes)
 - Floors crossed, vertical mode used
@@ -194,6 +200,7 @@ Physical QR Code  →  Camera Scan (@zxing/browser)  →  Decode "CAMPUSNAV:F1_N
 ```
 
 Supported payload formats:
+
 - `CAMPUSNAV:<node_id>` (standard)
 - `NAVIXAI:<node_id>` (alternative)
 - Raw `<node_id>` (fallback)
@@ -202,21 +209,22 @@ Supported payload formats:
 
 ## API Endpoints
 
-| Method | Endpoint                 | Description                                      |
-|--------|--------------------------|--------------------------------------------------|
-| GET    | `/api/building/`         | List buildings with nested floors                |
-| GET    | `/api/floors/`           | List all floors                                  |
-| GET    | `/api/nodes/`            | List active nodes (filter: `?floor=1&type=room&q=lab`) |
-| GET    | `/api/nodes/<node_id>/`  | Single node detail                               |
-| POST   | `/api/scan/`             | Validate QR payload, return node info            |
-| GET    | `/api/routes/`           | Calculate route: `?from=F1_N01&to=F2_N08&mode=lift` |
-| GET    | `/api/qr/<node_id>/`     | Serve QR code PNG image                          |
+| Method | Endpoint                | Description                                            |
+| ------ | ----------------------- | ------------------------------------------------------ |
+| GET    | `/api/building/`        | List buildings with nested floors                      |
+| GET    | `/api/floors/`          | List all floors                                        |
+| GET    | `/api/nodes/`           | List active nodes (filter: `?floor=1&type=room&q=lab`) |
+| GET    | `/api/nodes/<node_id>/` | Single node detail                                     |
+| POST   | `/api/scan/`            | Validate QR payload, return node info                  |
+| GET    | `/api/routes/`          | Calculate route: `?from=F1_N01&to=F2_N08&mode=lift`    |
+| GET    | `/api/qr/<node_id>/`    | Serve QR code PNG image                                |
 
 ### Route API Example
 
 **Request:** `GET /api/routes/?from=F1_N01&to=F2_N08&mode=lift`
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -272,6 +280,7 @@ frontend/src/
 ## Setup Instructions
 
 ### Prerequisites
+
 - Python 3.10+ with pip
 - Node.js 18+ with npm
 - MySQL 8+ (optional — defaults to SQLite for development)
@@ -313,17 +322,21 @@ python manage.py createsuperuser  # Optional: for Django Admin access
 ## Running Locally
 
 **Start backend** (terminal 1):
+
 ```bash
 cd backend
 python manage.py runserver
 ```
+
 Backend runs at: `http://127.0.0.1:8000`
 
 **Start frontend** (terminal 2):
+
 ```bash
 cd frontend
 npm run dev
 ```
+
 Frontend runs at: `http://127.0.0.1:5173`
 
 The Vite dev server proxies `/api/*` requests to the Django backend automatically.
@@ -340,11 +353,13 @@ python manage.py import_nodes ../data/building_nodes.csv
 ```
 
 Options:
+
 ```bash
 python manage.py import_nodes path/to/data.csv --building-code MAIN --building-name "My Building"
 ```
 
 The importer:
+
 - Validates all CSV rows (headers, types, coordinates, duplicates)
 - Creates Building and Floor records automatically
 - Creates/updates Node records (idempotent)
@@ -374,6 +389,7 @@ python manage.py test navigation -v 2
 ```
 
 Test coverage:
+
 - **CSV Validation:** valid rows, duplicate node_id, invalid floor, invalid type
 - **QR Validation:** valid CAMPUSNAV payload, NAVIXAI fallback, unknown codes
 - **Routing:** same-floor route, multi-floor via lift, multi-floor via stairs
@@ -446,4 +462,4 @@ NavixAI/
 
 ---
 
-*Built with NavixAI — Intelligent Indoor Campus Navigation*
+_Built with NavixAI — Intelligent Indoor Campus Navigation_
