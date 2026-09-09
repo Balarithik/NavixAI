@@ -1,0 +1,82 @@
+CampusNav/
+│
+├── backend/
+│   │
+│   ├── manage.py
+│   │
+│   ├── config/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   │   └── asgi.py
+│   │
+│   └── navigation/
+│       │
+│       ├── models.py
+│       ├── serializers.py
+│       ├── views.py
+│       ├── urls.py
+│       │
+│       ├── admin.py
+│       │
+│       ├── routing/
+│       │   ├── graph.py
+│       │   ├── dijkstra.py
+│       │   ├── route_engine.py
+│       │   └── instructions.py
+│       │
+│       ├── qr/
+│       │   ├── generator.py
+│       │   └── decoder.py
+│       │
+│       ├── importer/
+│       │   ├── csv_parser.py
+│       │   └── validator.py
+│       │
+│       └── services/
+│           ├── node_service.py
+│           ├── route_service.py
+│           └── navigation_service.py
+│
+├── frontend/
+│   │
+│   ├── package.json
+│   │
+│   └── src/
+│       │
+│       ├── App.jsx
+│       ├── main.jsx
+│       │
+│       ├── components/
+│       │   ├── Header.jsx
+│       │   ├── Scanner.jsx
+│       │   ├── LocationSelector.jsx
+│       │   ├── DestinationSelector.jsx
+│       │   ├── RoutePanel.jsx
+│       │   ├── NavigationMap.jsx
+│       │   ├── FloorSelector.jsx
+│       │   ├── ProgressCard.jsx
+│       │   └── AchievementPanel.jsx
+│       │
+│       ├── pages/
+│       │   ├── Home.jsx
+│       │   ├── Navigation.jsx
+│       │   └── ScannerPage.jsx
+│       │
+│       ├── services/
+│       │   └── api.js
+│       │
+│       ├── maps/
+│       │   └── building-map.svg
+│       │
+│       └── styles/
+│           ├── global.css
+│           └── components.css
+│
+├── data/
+│   └── building_nodes.csv
+│
+├── qr_codes/
+│
+├── README.md
+└── .env

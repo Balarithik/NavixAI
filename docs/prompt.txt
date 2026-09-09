@@ -1,0 +1,1 @@
+i am going to build this app using ai . I want you to give me an md file to tell the complete overview and system archetecture and workflow of this project . I want frontend to be more dynamic and ui should be like gmap ui with more advanced ux components .

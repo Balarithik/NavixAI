@@ -1,0 +1,1 @@
+# NavixAI QR package

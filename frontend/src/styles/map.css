@@ -1,0 +1,225 @@
+/* Map Viewport Container */
+.map-viewport-wrapper {
+  flex: 1;
+  position: relative;
+  background-color: #F8FAFC;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.map-viewport-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Floor Selector Control */
+.floor-selector-bar {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  background: #FFFFFF;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-subtle);
+  z-index: 10;
+  gap: 4px;
+}
+
+.floor-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.floor-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-main);
+}
+
+.floor-btn.active {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.floor-has-route-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: #38BDF8;
+}
+
+/* Map Floating Control Buttons */
+.map-floating-controls {
+  position: absolute;
+  bottom: 24px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.map-ctrl-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.map-ctrl-btn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-main);
+}
+
+.map-ctrl-btn:not(:last-child) {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Legend Pill */
+.map-legend-pill {
+  position: absolute;
+  bottom: 24px;
+  left: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  z-index: 10;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+/* SVG Elements & Styling */
+.svg-map-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Floor Plan Architectural Room Polygons */
+.map-room-rect {
+  fill: #FFFFFF;
+  stroke: #CBD5E1;
+  stroke-width: 0.8;
+  rx: 2;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.map-room-rect:hover {
+  fill: #F1F5F9;
+  stroke: #94A3B8;
+}
+
+.map-corridor-guide {
+  stroke: #E2E8F0;
+  stroke-width: 1.5;
+  stroke-dasharray: 2 2;
+}
+
+.map-room-label {
+  font-size: 2.4px;
+  font-weight: 600;
+  fill: #64748B;
+  text-anchor: middle;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Route Polyline */
+.route-glow-polyline {
+  fill: none;
+  stroke: rgba(37, 99, 235, 0.3);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route-main-polyline {
+  fill: none;
+  stroke: #2563EB;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route-dash-polyline {
+  fill: none;
+  stroke: #60A5FA;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 3 3;
+  animation: dashFlow 1.2s linear infinite;
+}
+
+/* Node Markers on Map */
+.node-circle-marker {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.node-circle-marker:hover {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.start-pulse-ring {
+  animation: pulseGlow 2s infinite;
+  transform-origin: center;
+}
+
+.dest-pin-group {
+  animation: bounceSlow 1.5s ease-in-out infinite;
+}
+
+/* Map Tooltip */
+.map-tooltip {
+  position: absolute;
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.76rem;
+  font-weight: 600;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  transform: translate(-50%, -120%);
+  z-index: 50;
+}
