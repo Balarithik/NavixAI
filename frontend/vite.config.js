@@ -7,11 +7,11 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: VITE_API_BASE_URL,
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       },
       '/media': {
-        target: VITE_API_BASE_URL,
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
       }
     }
