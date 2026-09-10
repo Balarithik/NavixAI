@@ -300,7 +300,7 @@ export default function NavigationPage() {
         <div key={t.id} className="achievement-toast">
           <Sparkles size={16} color="#F59E0B" />
           <span>{t.message}</span>
-          {t.xp && <span className="toast-xp">+{t.xp} XP</span>}
+          <Sparkles size={16} color="#F59E0B" />
         </div>
       ))}
     </div>

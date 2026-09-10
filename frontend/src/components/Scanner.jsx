@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { BrowserQRCodeReader } from '@zxing/browser';
 import { Camera, X, AlertCircle, RefreshCw, CheckCircle2, Search } from 'lucide-react';
 import { api } from '../services/api';
@@ -12,58 +12,10 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
   const [processing, setProcessing] = useState(false);
   const videoRef = useRef(null);
   const controlsRef = useRef(null);
+  const codeReaderRef = useRef(null);
+  const isMountedRef = useRef(true);
 
-  useEffect(() => {
-    if (!isOpen) {
-      stopCamera();
-      return;
-    }
-
-    startCamera();
-
-    return () => {
-      stopCamera();
-    };
-  }, [isOpen]);
-
-  const startCamera = async () => {
-    setCameraError(null);
-    setScanning(true);
-    try {
-      const codeReader = new BrowserQRCodeReader();
-      const videoInputDevices = await BrowserQRCodeReader.listVideoInputDevices();
-
-      if (!videoInputDevices || videoInputDevices.length === 0) {
-        setHasCamera(false);
-        setCameraError('No camera found on this device. Use manual QR selection below.');
-        setScanning(false);
-        return;
-      }
-
-      setHasCamera(true);
-      const selectedDeviceId = videoInputDevices[0].deviceId;
-
-      if (videoRef.current) {
-        const controls = await codeReader.decodeFromVideoDevice(
-          selectedDeviceId,
-          videoRef.current,
-          (result, error) => {
-            if (result) {
-              handlePayload(result.getText());
-            }
-          }
-        );
-        controlsRef.current = controls;
-      }
-    } catch (err) {
-      console.warn('Camera access error:', err);
-      setHasCamera(false);
-      setCameraError('Camera access denied or unavailable. Use the simulator or manual code below.');
-      setScanning(false);
-    }
-  };
-
-  const stopCamera = () => {
+  const stopCamera = useCallback(() => {
     if (controlsRef.current) {
       try {
         controlsRef.current.stop();
@@ -72,10 +24,18 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
       }
       controlsRef.current = null;
     }
+    if (codeReaderRef.current) {
+      try {
+        codeReaderRef.current.reset();
+      } catch (e) {
+        // ignore
+      }
+      codeReaderRef.current = null;
+    }
     setScanning(false);
-  };
+  }, []);
 
-  const handlePayload = async (payload) => {
+  const handlePayload = useCallback(async (payload) => {
     if (!payload || processing) return;
     setProcessing(true);
     try {
@@ -90,9 +50,121 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
     } catch (err) {
       alert(err.message || 'Could not validate QR code');
     } finally {
-      setProcessing(false);
+      if (isMountedRef.current) {
+        setProcessing(false);
+      }
     }
-  };
+  }, [processing, stopCamera, onLocationDetected, onClose]);
+
+  const startCamera = useCallback(async () => {
+    if (!isMountedRef.current) return;
+    
+    setCameraError(null);
+    setScanning(true);
+    
+    try {
+      const codeReader = new BrowserQRCodeReader();
+      codeReaderRef.current = codeReader;
+      
+      const videoInputDevices = await BrowserQRCodeReader.listVideoInputDevices();
+
+      if (!videoInputDevices || videoInputDevices.length === 0) {
+        if (isMountedRef.current) {
+          setHasCamera(false);
+          setCameraError('No camera found on this device. Use manual QR selection below.');
+          setScanning(false);
+        }
+        return;
+      }
+
+      if (isMountedRef.current) {
+        setHasCamera(true);
+      }
+      
+      const selectedDeviceId = videoInputDevices[0].deviceId;
+
+      // Wait for video element to be ready
+      const waitForVideoReady = (videoEl, maxAttempts = 50) => {
+        return new Promise((resolve, reject) => {
+          let attempts = 0;
+          const checkReady = () => {
+            if (!isMountedRef.current) {
+              reject(new Error('Component unmounted'));
+              return;
+            }
+            if (videoEl && videoEl.readyState >= 2) { // HAVE_CURRENT_DATA
+              resolve();
+            } else if (attempts >= maxAttempts) {
+              reject(new Error('Video element not ready'));
+            } else {
+              attempts++;
+              requestAnimationFrame(checkReady);
+            }
+          };
+          checkReady();
+        });
+      };
+
+      if (videoRef.current) {
+        // Ensure video is playing
+        videoRef.current.muted = true;
+        videoRef.current.playsInline = true;
+        
+        try {
+          await videoRef.current.play();
+        } catch (playErr) {
+          console.warn('Video play failed:', playErr);
+        }
+        
+        await waitForVideoReady(videoRef.current);
+        
+        if (!isMountedRef.current) return;
+        
+        const controls = await codeReader.decodeFromVideoDevice(
+          selectedDeviceId,
+          videoRef.current,
+          (result, error) => {
+            if (!isMountedRef.current) return;
+            if (result) {
+              handlePayload(result.getText());
+            }
+          }
+        );
+        
+        if (isMountedRef.current) {
+          controlsRef.current = controls;
+        }
+      }
+    } catch (err) {
+      console.warn('Camera access error:', err);
+      if (isMountedRef.current) {
+        setHasCamera(false);
+        const errorMessage = err.name === 'NotAllowedError' 
+          ? 'Camera permission denied. Please allow camera access in browser settings.'
+          : err.name === 'NotFoundError'
+            ? 'No camera found on this device.'
+            : 'Camera access denied or unavailable. Use the simulator or manual code below.';
+        setCameraError(errorMessage);
+        setScanning(false);
+      }
+    }
+  }, [handlePayload]);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    
+    if (!isOpen) {
+      stopCamera();
+      return;
+    }
+
+    startCamera();
+
+    return () => {
+      isMountedRef.current = false;
+      stopCamera();
+    };
+  }, [isOpen, startCamera, stopCamera]);
 
   const handleSimulatedScan = () => {
     if (!selectedNodeId) return;
@@ -107,6 +179,15 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
     if (manualCode.trim()) {
       handlePayload(manualCode.trim());
     }
+  };
+
+  // Add autoPlay to video element for automatic playback
+  const videoProps = {
+    ref: videoRef,
+    style: { width: '100%', height: '100%', objectFit: 'cover' },
+    muted: true,
+    playsInline: true,
+    autoPlay: true,
   };
 
   if (!isOpen) return null;
@@ -140,12 +221,7 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
             }}
           >
             {hasCamera ? (
-              <video
-                ref={videoRef}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                muted
-                playsInline
-              />
+              <video {...videoProps} />
             ) : null}
 
             {/* Target Reticle Overlay */}

@@ -43,24 +43,6 @@ export default function AchievementModal({ isOpen, onClose, destinationNode, rou
             Floor {destinationNode?.floor_number || destinationNode?.floor || route?.to?.floor}
           </p>
 
-          {/* Achievement XP Badge */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              background: '#FEF3C7',
-              color: '#92400E',
-              padding: '6px 14px',
-              borderRadius: 'var(--radius-full)',
-              fontWeight: 800,
-              fontSize: '0.85rem',
-              margin: '16px 0',
-            }}
-          >
-            <Sparkles size={16} />
-            <span>+{xpEarned} Navigation XP</span>
-          </div>
 
           {/* Statistics Grid */}
           <div
