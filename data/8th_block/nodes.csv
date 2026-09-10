@@ -1,0 +1,16 @@
+node_id,building_id,floor,block,name,type,x,y,qr_code
+8B_F1_ENT,8TH_BLOCK,1,8B,Main Entrance,entrance,10,85,CAMPUSNAV|INDOOR|8TH_BLOCK|1|8B_F1_ENT
+8B_F1_COR1,8TH_BLOCK,1,8B,Entrance Corridor,corridor,30,85,
+8B_F1_J1,8TH_BLOCK,1,8B,Main Junction,junction,50,85,
+8B_F1_D101,8TH_BLOCK,1,8B,Room 101 Door,door,50,70,
+8B_F1_R101,8TH_BLOCK,1,8B,Room 101,room,50,58,
+8B_F1_COR2,8TH_BLOCK,1,8B,East Corridor,corridor,70,85,
+8B_F1_D102,8TH_BLOCK,1,8B,Room 102 Door,door,78,78,
+8B_F1_R102,8TH_BLOCK,1,8B,Room 102,room,86,70,
+8B_F1_STAIR,8TH_BLOCK,1,8B,Staircase A,stair,70,60,
+8B_F1_LIFT,8TH_BLOCK,1,8B,Lift A,lift,88,85,
+8B_F2_STAIR,8TH_BLOCK,2,8B,Staircase A,stair,70,60,
+8B_F2_COR,8TH_BLOCK,2,8B,Central Corridor,corridor,50,60,
+8B_F2_DSEM,8TH_BLOCK,2,8B,Seminar Hall Door,door,32,60,
+8B_F2_SEM,8TH_BLOCK,2,8B,Seminar Hall,hall,32,46,
+8B_F2_LIFT,8TH_BLOCK,2,8B,Lift A,lift,88,60,

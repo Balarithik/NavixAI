@@ -1,0 +1,15 @@
+edge_id,from_node,to_node,distance_m,movement_type,accessible,bidirectional,is_active
+3B_E01,3B_F1_ENT,3B_F1_COR,,walk,True,True,True
+3B_E02,3B_F1_COR,3B_F1_J,,walk,True,True,True
+3B_E03,3B_F1_J,3B_F1_STAIR,,walk,True,True,True
+3B_E04,3B_F1_STAIR,3B_F1_LIFT,,walk,True,True,True
+3B_E05,3B_F1_STAIR,3B_F2_STAIR,,stairs,False,True,True
+3B_E06,3B_F1_LIFT,3B_F2_LIFT,10,lift,True,True,True
+3B_E07,3B_F2_STAIR,3B_F2_J,,walk,True,True,True
+3B_E08,3B_F2_J,3B_F2_LIFT,,walk,True,True,True
+3B_E09,3B_F2_STAIR,3B_F3_STAIR,,stairs,False,True,True
+3B_E10,3B_F2_LIFT,3B_F3_LIFT,10,lift,True,True,True
+3B_E11,3B_F3_STAIR,3B_F3_COR,,walk,True,True,True
+3B_E12,3B_F3_COR,3B_F3_D340,,walk,True,True,True
+3B_E13,3B_F3_D340,3B_F3_R340,,walk,True,True,True
+3B_E14,3B_F3_COR,3B_F3_LIFT,,walk,True,True,True

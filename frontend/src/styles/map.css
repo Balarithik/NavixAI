@@ -15,19 +15,21 @@
   cursor: grabbing;
 }
 
-/* Floor Selector Control */
+/* Floor Selector Control — compact, below the top search zone */
 .floor-selector-bar {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 76px;
+  right: 12px;
   display: flex;
   background: #FFFFFF;
   padding: 4px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-subtle);
-  z-index: 10;
+  z-index: var(--z-controls, 20);
   gap: 4px;
+  max-width: calc(100% - 24px);
+  overflow-x: auto;
 }
 
 .floor-btn {
@@ -60,11 +62,11 @@
   background: #38BDF8;
 }
 
-/* Map Floating Control Buttons */
+/* Map Floating Control Buttons — right rail, below floor pills */
 .map-floating-controls {
   position: absolute;
-  bottom: 24px;
-  right: 18px;
+  top: 132px;
+  right: 12px;
   display: flex;
   flex-direction: column;
   background: #FFFFFF;
@@ -72,7 +74,7 @@
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-subtle);
   overflow: hidden;
-  z-index: 10;
+  z-index: var(--z-controls, 20);
 }
 
 .map-ctrl-btn {
@@ -111,7 +113,7 @@
   font-size: 0.78rem;
   color: var(--text-muted);
   font-weight: 600;
-  z-index: 10;
+  z-index: var(--z-controls, 20);
 }
 
 .legend-item {
@@ -148,9 +150,72 @@
 }
 
 .map-corridor-guide {
-  stroke: #E2E8F0;
-  stroke-width: 1.5;
+  stroke: #CBD5E1;
+  stroke-width: 0.6;
   stroke-dasharray: 2 2;
+}
+
+/* Corridor network band (walk edges between walkway nodes) */
+.map-corridor-band {
+  stroke: #E8EEF4;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+/* Door tick marker */
+.map-door-tick {
+  fill: #FEF3C7;
+  stroke: #D97706;
+  stroke-width: 0.5;
+  rx: 0.8;
+}
+
+/* Debug graph overlay */
+.map-debug-edge {
+  stroke: #F43F5E;
+  stroke-width: 0.4;
+  opacity: 0.65;
+}
+.map-debug-edge-label {
+  font-size: 1.8px;
+  font-weight: 600;
+  fill: #BE123C;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.map-debug-node-label {
+  font-size: 1.9px;
+  font-weight: 700;
+  fill: #334155;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.map-ctrl-btn.active-debug {
+  background: #F43F5E;
+  color: #FFFFFF;
+}
+
+/* Building / floor context chip — below the top search zone */
+.floor-context-chip {
+  position: absolute;
+  top: 76px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  padding: 7px 13px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-subtle);
+  z-index: var(--z-controls, 20);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+  max-width: calc(100% - 160px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .map-room-label {
@@ -221,5 +286,13 @@
   white-space: nowrap;
   box-shadow: var(--shadow-lg);
   transform: translate(-50%, -120%);
-  z-index: 50;
+  z-index: var(--z-controls, 20);
+}
+
+/* Small screens: hide the legend, drop pills/rail below the wrapped topbar */
+@media (max-width: 720px) {
+  .map-legend-pill { display: none; }
+  .floor-selector-bar { top: 124px; right: 8px; }
+  .floor-context-chip { top: 124px; left: 8px; }
+  .map-floating-controls { top: 180px; right: 8px; }
 }

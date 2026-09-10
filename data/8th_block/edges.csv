@@ -1,0 +1,16 @@
+edge_id,from_node,to_node,distance_m,movement_type,accessible,bidirectional,is_active
+8B_E01,8B_F1_ENT,8B_F1_COR1,,walk,True,True,True
+8B_E02,8B_F1_COR1,8B_F1_J1,,walk,True,True,True
+8B_E03,8B_F1_J1,8B_F1_D101,,walk,True,True,True
+8B_E04,8B_F1_D101,8B_F1_R101,,walk,True,True,True
+8B_E05,8B_F1_J1,8B_F1_COR2,,walk,True,True,True
+8B_E06,8B_F1_COR2,8B_F1_D102,,walk,True,True,True
+8B_E07,8B_F1_D102,8B_F1_R102,,walk,True,True,True
+8B_E08,8B_F1_COR2,8B_F1_STAIR,,walk,True,True,True
+8B_E09,8B_F1_COR2,8B_F1_LIFT,,walk,True,True,True
+8B_E10,8B_F1_STAIR,8B_F2_STAIR,,stairs,False,True,True
+8B_E11,8B_F1_LIFT,8B_F2_LIFT,10,lift,True,True,True
+8B_E12,8B_F2_STAIR,8B_F2_COR,,walk,True,True,True
+8B_E13,8B_F2_COR,8B_F2_DSEM,,walk,True,True,True
+8B_E14,8B_F2_DSEM,8B_F2_SEM,,walk,True,True,True
+8B_E15,8B_F2_COR,8B_F2_LIFT,,walk,True,True,True

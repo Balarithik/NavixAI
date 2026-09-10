@@ -3,15 +3,17 @@ import { BrowserQRCodeReader } from '@zxing/browser';
 import { Camera, X, AlertCircle, RefreshCw, CheckCircle2, Search } from 'lucide-react';
 import { api } from '../services/api';
 
-export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes = [] }) {
-  const [hasCamera, setHasCamera] = useState(true);
+export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes = [], outdoorNodes = [] }) {
+  const [hasCamera, setHasCamera] = useState(false);
   const [cameraError, setCameraError] = useState(null);
   const [scanning, setScanning] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState('');
   const [manualCode, setManualCode] = useState('');
   const [processing, setProcessing] = useState(false);
+  const [scanError, setScanError] = useState(null);
   const videoRef = useRef(null);
   const controlsRef = useRef(null);
+  const streamRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -29,6 +31,7 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
   const startCamera = async () => {
     setCameraError(null);
     setScanning(true);
+
     try {
       const codeReader = new BrowserQRCodeReader();
       const videoInputDevices = await BrowserQRCodeReader.listVideoInputDevices();
@@ -43,27 +46,45 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
       setHasCamera(true);
       const selectedDeviceId = videoInputDevices[0].deviceId;
 
+      // Request camera access via getUserMedia
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', userFacing: false },
+        audio: false,
+      });
+      streamRef.current = stream;
+
       if (videoRef.current) {
-        const controls = await codeReader.decodeFromVideoDevice(
-          selectedDeviceId,
-          videoRef.current,
-          (result, error) => {
-            if (result) {
-              handlePayload(result.getText());
+        videoRef.current.srcObject = stream;
+        videoRef.current.playsInline = true;
+        videoRef.current.muted = true;
+        videoRef.current.onloadeddata = async () => {
+          const controls = await codeReader.decodeFromVideoDevice(
+            selectedDeviceId,
+            videoRef.current,
+            (result, error) => {
+              if (result) {
+                handlePayload(result.getText());
+              }
             }
-          }
-        );
-        controlsRef.current = controls;
+          );
+          controlsRef.current = controls;
+        };
       }
     } catch (err) {
       console.warn('Camera access error:', err);
       setHasCamera(false);
       setCameraError('Camera access denied or unavailable. Use the simulator or manual code below.');
       setScanning(false);
+      // Clean up stream if it was created
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
     }
   };
 
   const stopCamera = () => {
+    // Stop the ZXing controls if they exist
     if (controlsRef.current) {
       try {
         controlsRef.current.stop();
@@ -72,12 +93,25 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
       }
       controlsRef.current = null;
     }
+
+    // Stop the video stream tracks
+    if (streamRef.current) {
+      try {
+        streamRef.current.getTracks().forEach(track => track.stop());
+      } catch (e) {
+        // ignore
+      }
+      streamRef.current = null;
+    }
+
     setScanning(false);
+    setHasCamera(false);
   };
 
   const handlePayload = async (payload) => {
     if (!payload || processing) return;
     setProcessing(true);
+    setScanError(null);
     try {
       const data = await api.scanQRCode(payload);
       if (data.valid) {
@@ -85,10 +119,10 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
         onLocationDetected(data);
         onClose();
       } else {
-        alert(data.error || 'Invalid QR code');
+        setScanError(data.error || 'This QR code is not a valid CampusNav location.');
       }
     } catch (err) {
-      alert(err.message || 'Could not validate QR code');
+      setScanError(err.message || 'CampusNav could not find this location.');
     } finally {
       setProcessing(false);
     }
@@ -96,6 +130,12 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
 
   const handleSimulatedScan = () => {
     if (!selectedNodeId) return;
+    if (selectedNodeId.startsWith('OUTDOOR:')) {
+      const id = selectedNodeId.slice('OUTDOOR:'.length);
+      const node = outdoorNodes.find((n) => n.node_id === id);
+      if (node) handlePayload(node.qr_code || `CAMPUSNAV|OUTDOOR|${node.node_id}`);
+      return;
+    }
     const node = allNodes.find((n) => n.node_id === selectedNodeId);
     if (node) {
       handlePayload(node.qr_code || `NAVIXAI:${node.node_id}`);
@@ -217,11 +257,22 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
                 }}
               >
                 <option value="">-- Choose a location to simulate scan --</option>
-                {allNodes.map((n) => (
-                  <option key={n.node_id} value={n.node_id}>
-                    Floor {n.floor_number}: {n.name} ({n.type})
-                  </option>
-                ))}
+                {outdoorNodes.length > 0 && (
+                  <optgroup label="Outdoor (campus)">
+                    {outdoorNodes.map((n) => (
+                      <option key={`out-${n.node_id}`} value={`OUTDOOR:${n.node_id}`}>
+                        {n.name} ({n.type})
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+                <optgroup label="Indoor (building)">
+                  {allNodes.map((n) => (
+                    <option key={n.node_id} value={n.node_id}>
+                      Floor {n.floor_number}: {n.name} ({n.type})
+                    </option>
+                  ))}
+                </optgroup>
               </select>
 
               <button
@@ -236,11 +287,27 @@ export default function Scanner({ isOpen, onClose, onLocationDetected, allNodes 
             </div>
           </div>
 
+          {scanError && (
+            <div
+              style={{
+                padding: '10px 12px',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: '#FEF2F2',
+                border: '1px solid #FCA5A5',
+                color: '#991B1B',
+                fontSize: '0.85rem',
+              }}
+              role="alert"
+            >
+              {scanError}
+            </div>
+          )}
+
           {/* Manual text code input */}
           <form onSubmit={handleManualSubmit} style={{ display: 'flex', gap: 8 }}>
             <input
               type="text"
-              placeholder="Or enter QR code payload (e.g. CAMPUSNAV:F1_N01)"
+              placeholder="Or enter QR code payload (e.g. CAMPUSNAV|OUTDOOR|MAIN_GATE)"
               value={manualCode}
               onChange={(e) => setManualCode(e.target.value)}
               style={{

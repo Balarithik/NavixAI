@@ -1,0 +1,11 @@
+# Academic blocks — CampusNav-owned catalog data.
+# source: verified = field/GPS-verified | official = KARE official document | synthetic = dev placeholder (NOT for production routing claims)
+# building_id maps to Building.code in the database.
+building_id,name,category,latitude,longitude,is_active,source
+MAIN,Engineering & Tech Complex,academic,9.574500,77.675500,True,synthetic
+8TH_BLOCK,8th Block,academic,9.575069,77.675783,True,verified
+3RD_BLOCK,3rd Block,academic,9.576200,77.674800,True,synthetic
+9TH_BLOCK,9th Block,academic,9.575600,77.676300,True,synthetic
+COMPUTER_BLOCK,Computer Block,academic,9.574500,77.674800,True,synthetic
+ACA01,Academic Block 1,academic,9.573200,77.675800,True,synthetic
+ACA02,Academic Block 2,academic,9.573500,77.676000,True,synthetic

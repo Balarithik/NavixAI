@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MapPin, QrCode, ChevronDown, X, Check } from 'lucide-react';
+import { MapPin, X, Check } from 'lucide-react';
 
 export default function LocationSelector({
   label = "From",
   selectedNode,
   onSelectNode,
   nodes = [],
-  placeholder = "Search start location or scan QR...",
-  onOpenScanner,
+  placeholder = "Search start location...",
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -74,22 +73,8 @@ export default function LocationSelector({
         </div>
 
         {selectedNode && (
-          <button className="icon-btn" onClick={handleClear} style={{ width: 26, height: 26 }} title="Clear">
+          <button className="icon-btn" onClick={handleClear} style={{ width: 26, height: 26 }} title="Clear" aria-label="Clear start location">
             <X size={14} />
-          </button>
-        )}
-
-        {onOpenScanner && !selectedNode && (
-          <button
-            className="icon-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpenScanner();
-            }}
-            title="Scan QR code"
-            style={{ width: 30, height: 30, color: 'var(--color-primary)' }}
-          >
-            <QrCode size={18} />
           </button>
         )}
       </div>

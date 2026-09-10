@@ -1,0 +1,17 @@
+# Outdoor navigation graph nodes — ONLY these become routable graph points.
+# building_id must match a Building.code (from academic/hostels/facilities imports).
+# Optional qr_code column: explicit QR payload; blank auto-generates CAMPUSNAV|OUTDOOR|<node_id>.
+node_id,name,type,latitude,longitude,building_id,is_accessible,is_active
+MAIN_GATE,Main Gate,gate,9.572000,77.674000,,True,True
+JUNCTION_SOUTH,South Junction,junction,9.573000,77.674500,,True,True
+LIBRARY_ENTRANCE,Library Entrance,building_entrance,9.573800,77.674200,CENTRAL_LIBRARY,True,True
+JUNCTION_CENTRAL,Central Junction,junction,9.574000,77.675200,,True,True
+ADMIN_ENTRANCE,Admin Entrance,building_entrance,9.572800,77.675000,ADMIN,True,True
+COMPUTER_BLOCK_ENTRANCE,Computer Block Entrance,building_entrance,9.574500,77.674800,COMPUTER_BLOCK,True,True
+MAIN_ENTRANCE,Tech Complex Entrance,building_entrance,9.574550,77.675600,MAIN,True,True
+CENTRAL_LAWN,Central Lawn,landmark,9.574000,77.675800,,True,True
+WALKWAY_EAST,East Walkway,walkway,9.574200,77.676200,,True,True
+EIGHTH_BLOCK_ENTRANCE,8th Block Entrance,building_entrance,9.575069,77.675783,8TH_BLOCK,True,True
+THIRD_BLOCK_ENTRANCE,3rd Block Entrance,building_entrance,9.576200,77.674800,3RD_BLOCK,True,True
+JUNCTION_NORTH,North Junction,junction,9.575500,77.675500,,True,True
+NINTH_BLOCK_ENTRANCE,9th Block Entrance,building_entrance,9.575600,77.676300,9TH_BLOCK,True,True

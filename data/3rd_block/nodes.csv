@@ -1,0 +1,14 @@
+node_id,building_id,floor,block,name,type,x,y,qr_code
+3B_F1_ENT,3RD_BLOCK,1,3B,Main Entrance,entrance,10,85,CAMPUSNAV|INDOOR|3RD_BLOCK|1|3B_F1_ENT
+3B_F1_COR,3RD_BLOCK,1,3B,Entrance Corridor,corridor,30,85,
+3B_F1_J,3RD_BLOCK,1,3B,Main Junction,junction,50,85,
+3B_F1_STAIR,3RD_BLOCK,1,3B,Staircase B,stair,70,85,
+3B_F1_LIFT,3RD_BLOCK,1,3B,Lift B,lift,88,85,
+3B_F2_STAIR,3RD_BLOCK,2,3B,Staircase B,stair,70,85,
+3B_F2_J,3RD_BLOCK,2,3B,Floor 2 Junction,junction,50,85,
+3B_F2_LIFT,3RD_BLOCK,2,3B,Lift B,lift,88,85,
+3B_F3_STAIR,3RD_BLOCK,3,3B,Staircase B,stair,70,85,
+3B_F3_COR,3RD_BLOCK,3,3B,Central Corridor,corridor,50,85,
+3B_F3_D340,3RD_BLOCK,3,3B,Room 340 Door,door,32,85,
+3B_F3_R340,3RD_BLOCK,3,3B,Room 340,room,32,70,
+3B_F3_LIFT,3RD_BLOCK,3,3B,Lift B,lift,88,85,

@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>CampusNav Outdoor QR Sheet</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;padding:24px}
+h1{font-size:20px} p.sub{color:#64748b;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;text-align:center;page-break-inside:avoid}
+.card img{width:180px;height:180px}
+.card h2{font-size:15px;margin:8px 0 2px}
+.card code{font-size:11px;color:#475569;word-break:break-all}
+@media print{body{background:#fff}}
+</style></head><body>
+<h1>CampusNav — Outdoor QR Locations</h1>
+<p class="sub">Scan any code with CampusNav Scan to set your current outdoor location.</p>
+<div class="grid">
+<div class="card"><img src="http://localhost:8000/api/qr/outdoor/EIGHTH_BLOCK_ENTRANCE/" alt="QR for 8th Block Entrance"><h2>8th Block Entrance</h2><code>CAMPUSNAV|OUTDOOR|EIGHTH_BLOCK_ENTRANCE</code></div>
+<div class="card"><img src="http://localhost:8000/api/qr/outdoor/MAIN_GATE/" alt="QR for Main Gate"><h2>Main Gate</h2><code>CAMPUSNAV|OUTDOOR|MAIN_GATE</code></div>
+</div></body></html>

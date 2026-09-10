@@ -1,0 +1,12 @@
+# Campus facilities/POIs — map + search data.
+# building_id links the facility to a Building record when the facility IS a building (else blank: standalone POI).
+# Facilities are NOT navigation graph nodes; routing still goes through outdoor_nodes.csv.
+facility_id,name,category,building_id,latitude,longitude,is_active,source
+FAC_LIBRARY,Central Library,facility,CENTRAL_LIBRARY,9.573800,77.674200,True,synthetic
+FAC_ADMIN,Administration Block,administration,ADMIN,9.572800,77.675000,True,synthetic
+FAC_GATE,Main Gate,gate,MAIN_GATE_BLDG,9.572000,77.674000,True,synthetic
+FAC_HOSPITAL,Campus Hospital,facility,,9.573000,77.673000,True,synthetic
+FAC_AUDI,Auditorium,facility,,9.575800,77.675000,True,synthetic
+FAC_TIFAC,TIFAC Research Center,facility,,9.574800,77.673800,True,synthetic
+FAC_WORKSHOP,Central Workshop,facility,,9.572500,77.676000,True,synthetic
+FAC_SWIM,Swimming Pool,facility,,9.576200,77.674500,True,synthetic

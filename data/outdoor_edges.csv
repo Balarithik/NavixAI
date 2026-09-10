@@ -1,0 +1,19 @@
+# Walkable campus edges — an edge means a person can actually walk between the nodes.
+# bidirectional=True creates both directions on import.
+edge_id,from_node,to_node,distance_m,movement_type,accessible,bidirectional,is_active
+E01,MAIN_GATE,JUNCTION_SOUTH,,walk,True,True,True
+E02,JUNCTION_SOUTH,LIBRARY_ENTRANCE,,walk,True,True,True
+E03,JUNCTION_SOUTH,ADMIN_ENTRANCE,,walk,True,True,True
+E04,JUNCTION_SOUTH,JUNCTION_CENTRAL,,walk,True,True,True
+E05,LIBRARY_ENTRANCE,COMPUTER_BLOCK_ENTRANCE,,walk,True,True,True
+E06,JUNCTION_CENTRAL,COMPUTER_BLOCK_ENTRANCE,,walk,True,True,True
+E07,JUNCTION_CENTRAL,CENTRAL_LAWN,,walk,True,True,True
+E08,JUNCTION_CENTRAL,MAIN_ENTRANCE,,accessible_walk,True,True,True
+E09,JUNCTION_CENTRAL,WALKWAY_EAST,,walk,True,True,True
+E10,CENTRAL_LAWN,WALKWAY_EAST,,walk,True,True,True
+E11,WALKWAY_EAST,EIGHTH_BLOCK_ENTRANCE,,walk,True,True,True
+E12,JUNCTION_CENTRAL,JUNCTION_NORTH,,walk,True,True,True
+E13,JUNCTION_NORTH,EIGHTH_BLOCK_ENTRANCE,,accessible_walk,True,True,True
+E14,JUNCTION_NORTH,NINTH_BLOCK_ENTRANCE,,walk,True,True,True
+E15,WALKWAY_EAST,NINTH_BLOCK_ENTRANCE,,walk,True,True,True
+E16,JUNCTION_NORTH,THIRD_BLOCK_ENTRANCE,,walk,True,True,True

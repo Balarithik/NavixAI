@@ -1,0 +1,10 @@
+# Outdoor → indoor handoff. building_id must match a Building.code.
+# indoor_node_id is the indoor Node.node_id just inside the entrance (blank = no indoor map yet).
+entrance_id,building_id,name,latitude,longitude,accessible,indoor_node_id,is_active
+MAIN_MAIN_ENTRANCE,MAIN,Tech Complex Main Entrance,9.574550,77.675600,True,F1_N01,True
+8TH_BLOCK_MAIN_ENTRANCE,8TH_BLOCK,8th Block Main Entrance,9.575069,77.675783,True,8B_F1_ENT,True
+3RD_BLOCK_MAIN_ENTRANCE,3RD_BLOCK,3rd Block Main Entrance,9.576200,77.674800,True,3B_F1_ENT,True
+9TH_BLOCK_MAIN_ENTRANCE,9TH_BLOCK,9th Block Main Entrance,9.575600,77.676300,True,,True
+COMPUTER_BLOCK_MAIN_ENTRANCE,COMPUTER_BLOCK,Computer Block Main Entrance,9.574500,77.674800,True,,True
+CENTRAL_LIBRARY_MAIN_ENTRANCE,CENTRAL_LIBRARY,Library Main Entrance,9.573800,77.674200,True,,True
+ADMIN_MAIN_ENTRANCE,ADMIN,Admin Main Entrance,9.572800,77.675000,True,,True

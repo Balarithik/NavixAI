@@ -148,6 +148,8 @@ class RouteEngine:
             'node_id': node.node_id,
             'name': node.name,
             'type': node.type,
+            'building_code': node.building.code,
+            'building_name': node.building.name,
             'floor': node.floor.floor_number,
             'floor_name': node.floor.name,
             'x': node.x,

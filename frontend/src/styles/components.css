@@ -444,7 +444,7 @@
   inset: 0;
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(4px);
-  z-index: 100;
+  z-index: var(--z-modal, 100);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -540,8 +540,10 @@
 /* Toast Notifications */
 .achievement-toast {
   position: fixed;
-  top: 76px;
-  right: 20px;
+  top: 132px;
+  left: 50%;
+  right: auto;
+  translate: -50% 0;
   background: #1E293B;
   color: #FFFFFF;
   padding: 12px 18px;
@@ -550,8 +552,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 200;
+  z-index: var(--z-toast, 60);
   animation: slideUp 0.3s ease-out;
+  max-width: calc(100vw - 32px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .toast-xp {

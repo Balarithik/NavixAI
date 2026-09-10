@@ -1,0 +1,5 @@
+# Hostel buildings — CampusNav-owned catalog data (see source column note in academic_blocks.csv).
+building_id,name,category,latitude,longitude,is_active,source
+HOSTEL_A,Boys Hostel A,hostel,9.571500,77.673500,True,synthetic
+HOSTEL_B,Girls Hostel B,hostel,9.576000,77.676800,True,synthetic
+HOSTEL_C,PG Hostel C,hostel,9.571800,77.676500,True,synthetic

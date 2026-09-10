@@ -1,0 +1,8 @@
+# Contextual campus spaces — map/search context ONLY. Never become graph nodes automatically.
+space_id,name,space_type,latitude,longitude,description,is_active
+SPACE_PARKING_S,South Parking,parking,9.572200,77.674800,Visitor parking near main gate,True
+SPACE_PARKING_N,North Parking,parking,9.576000,77.675800,Parking near academic blocks,True
+SPACE_LAWN,Central Lawn,landscape,9.574000,77.675800,Central landscaped lawn,True
+SPACE_LAKE,Campus Lake,water_body,9.571000,77.677000,Water body on east edge of campus,True
+SPACE_POND,Recharge Pond,recharge_pond,9.576500,77.673500,Rainwater recharge pond,True
+SPACE_BIOGAS,Biogas Plant,biogas_plant,9.571200,77.675500,Campus biogas facility,True
